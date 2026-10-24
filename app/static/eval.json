@@ -1,0 +1,9 @@
+{
+  "_comment": "Kết quả trên tập test v1.0 (128 tin), prompt v4_rules, chạy ngày 24/10/2026. Nguồn: README.md / runs/*_test/scores.json.",
+  "rows": [
+    {"name": "Sonnet 5.5", "sub": "Claude qua API", "f1": 97.0, "tp": 64, "n_scam": 68, "fp": 0, "n_legit": 60, "signal_f1": 83.1, "cost_1000": 4.93, "sec": 3.25},
+    {"name": "Haiku 5.5", "sub": "Claude qua API, mặc định trong app", "f1": 94.0, "tp": 63, "n_scam": 68, "fp": 3, "n_legit": 60, "signal_f1": 77.9, "cost_1000": 0.36, "sec": 2.28},
+    {"name": "Qwen 3.5 9B", "sub": "Chạy trên máy qua Ollama", "f1": 91.0, "tp": 61, "n_scam": 68, "fp": 5, "n_legit": 60, "signal_f1": 62.8, "cost_1000": 0, "sec": 8.80},
+    {"name": "Luật từ khóa", "sub": "Không dùng AI, làm mốc so sánh", "f1": 61.8, "tp": 34, "n_scam": 68, "fp": 8, "n_legit": 60, "signal_f1": 41.8, "cost_1000": 0, "sec": 0, "baseline": true}
+  ]
+}

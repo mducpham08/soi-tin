@@ -1,0 +1,22 @@
+# bí mật
+.env
+
+# dữ liệu không công khai: nội dung chép từ báo và mạng xã hội, một phần chưa rõ giấy phép,
+# và để tập test không lọt vào dữ liệu huấn luyện của các model sau này
+data/*.xlsx
+data/v1.0/dev.jsonl
+data/v1.0/test.jsonl
+data/v1.0/unsure.jsonl
+
+# kết quả chạy (có nội dung tin và câu trả lời của model); số liệu tổng hợp nằm ở results/
+runs/
+
+# môi trường, file tạm
+.venv/
+__pycache__/
+*.pyc
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+~$*

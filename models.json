@@ -1,0 +1,10 @@
+{
+  "_comment": "Bảng model dùng chung. Giá USD / 1 triệu token, tra ngày 24/10/2026 tại platform.claude.com/docs/en/about-claude/pricing (price_cache_write = ghi cache 5 phút, price_cache_read = đọc cache). Sonnet 5.5 không nhận tool_choice ép buộc, temperature, và luôn có thinking (thấp nhất là between_tools), nên dùng output_mode json_schema. Model chạy trên máy giá 0.",
+  "haiku": {"provider": "anthropic", "model": "claude-haiku-5-5", "price_in": 0.10, "price_out": 0.50, "price_cache_write": 0.125, "price_cache_read": 0.01, "max_tokens": 1500},
+  "sonnet": {"provider": "anthropic", "model": "claude-sonnet-5-5", "output_mode": "json_schema", "thinking": {"type": "between_tools"}, "price_in": 2.0, "price_out": 10.0, "price_cache_write": 2.5, "price_cache_read": 0.10, "max_tokens": 1500},
+  "sonnet-think": {"provider": "anthropic", "model": "claude-sonnet-5-5", "output_mode": "json_schema", "thinking": {"type": "adaptive"}, "effort": "medium", "price_in": 2.0, "price_out": 10.0, "price_cache_write": 2.5, "price_cache_read": 0.10, "max_tokens": 8000},
+  "qwen-local": {"provider": "ollama", "model": "qwen3.5:9b", "think": false, "num_ctx": 12288, "max_tokens": 1500, "price_in": 0, "price_out": 0},
+  "gemma-local": {"provider": "ollama", "model": "gemma4:e4b-it-qat", "num_ctx": 12288, "max_tokens": 1500, "price_in": 0, "price_out": 0},
+  "rules": {"provider": "rules", "model": "keyword-baseline-v0", "price_in": 0, "price_out": 0},
+  "oracle": {"provider": "oracle", "model": "gold-labels (chỉ để kiểm thử script)", "price_in": 0, "price_out": 0}
+}

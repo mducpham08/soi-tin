@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "scam-detector/output/v1",
+  "title": "Kết quả phân tích một tin",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["label", "confidence", "signals", "explanation"],
+  "properties": {
+    "label": {
+      "description": "Kết luận cuối cùng về tin.",
+      "enum": ["scam", "legit"]
+    },
+    "confidence": {
+      "description": "Mức chắc chắn rằng tin là scam, từ 0 đến 1 (không phải độ tin vào nhãn đã chọn). Dùng để vẽ đường precision-recall và chọn ngưỡng.",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "signals": {
+      "description": "Các dấu hiệu S01–S14 có trong tin, gán theo NỘI DUNG kể cả khi label là legit. Rỗng nếu không có.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "evidence"],
+        "properties": {
+          "id": {
+            "enum": ["S01", "S02", "S03", "S04", "S05", "S06", "S07", "S08", "S09", "S10", "S11", "S12", "S13", "S14"]
+          },
+          "evidence": {
+            "description": "Trích NGUYÊN VĂN một đoạn ngắn trong tin làm bằng chứng (≤ 200 ký tự).",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      }
+    },
+    "explanation": {
+      "description": "Giải thích ngắn cho người dùng bằng tiếng Việt (1–3 câu), nêu vì sao kết luận như vậy và nên làm gì.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 600
+    }
+  }
+}

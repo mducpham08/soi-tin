@@ -1,0 +1,131 @@
+{
+  "version": "1.0",
+  "signals": [
+    {
+      "id": "S01",
+      "column": "S01_money_request",
+      "name": "Yêu cầu chuyển tiền / đóng phí / chứng minh tài chính",
+      "definition": "Tin yêu cầu người nhận chuyển khoản, nạp tiền, đóng phí, đặt cọc, ủng hộ hoặc mua hàng/gói dịch vụ (đồng phục, tài liệu, gói 'kích hoạt'), trực tiếp hoặc như điều kiện để nhận việc/quyền lợi; HOẶC yêu cầu chứng minh tài chính: để sẵn một khoản tiền trong tài khoản, nộp sao kê, gửi tiền vào tài khoản 'để chứng minh' như điều kiện xét học bổng, trao đổi sinh viên, du học, việc làm.",
+      "cues": "phí hồ sơ, phí xử lý, phí ship, đặt cọc, nạp tiền, nạp đầu, chuyển khoản, ủng hộ qua tài khoản, thanh toán tiền phạt, kích hoạt tài khoản, phí nhận thưởng, số tiền kèm số tài khoản; dạng rất mạnh: chuyển vào tài khoản mang tên cá nhân cho khoản được cho là của tổ chức/cơ quan (vd. đóng phí để nhận hoàn thuế); chứng minh tài chính, cần có X triệu trong tài khoản, lấy biên bản sao kê, ưu tiên suất chứng minh tài chính (dạng hay gặp trong thư mời học bổng/trao đổi sinh viên giả)",
+      "example": "\"Đóng 350k phí đồng phục, đi làm 1 tháng sẽ hoàn lại.\"  /  \"Để tham gia chương trình, sinh viên cần có 120 triệu đồng trong tài khoản ngân hàng để lấy biên bản sao kê cho nhà trường.\"",
+      "exclusions": "Chỉ nhắc đến mức lương/thu nhập thì xét S02, không phải S01. Tin BÁO bạn đã/sắp bị trừ tiền (vd. 'mỗi tháng thu phí..., vào link để hủy') không phải yêu cầu chuyển tiền: không gán S01 (thường là S09). Gán theo nội dung kể cả tin legit: thông báo đóng học phí thật, lời kêu gọi ủng hộ qua tài khoản VẪN gán S01 (hard negative). Thông báo du học/trao đổi THẬT yêu cầu chứng minh tài chính để xin visa cũng VẪN gán S01 (hard negative)."
+    },
+    {
+      "id": "S02",
+      "column": "S02_unrealistic_reward",
+      "name": "Lợi ích bất ngờ hoặc phi thực tế",
+      "definition": "Gán khi có MỘT trong hai: (a) Hứa hẹn lương, hoa hồng, lợi nhuận đầu tư hoặc giải thưởng cao bất thường so với công sức/thời gian, hoặc cam kết chắc chắn có lời; (b) Thông báo người nhận ĐÃ được duyệt/trúng/nhận tiền, quà hoặc quyền lợi mà họ không chủ động yêu cầu, và phải làm gì đó để nhận (bấm link, đăng nhập, gọi lại, đóng phí).",
+      "cues": "(a) việc nhẹ lương cao, thu nhập theo ngày rất cao chỉ cần điện thoại, lợi nhuận %/tháng, cam kết không lỗ, thưởng nạp 240%, giảm giá 99%; (b) hồ sơ đã được phê duyệt, nhận tiền giải ngân, được hoàn thuế/hoàn tiền, bạn đã trúng thưởng, khách hàng may mắn, bạn được tặng voucher/code/tiền, khoản vay đang chờ kích hoạt, quà tặng hoặc bưu phẩm quà tặng chờ nhận",
+      "example": "(a) \"Làm 1-2 tiếng/ngày tại nhà, thu nhập 500k/ngày.\"  (b) \"Hồ sơ hưởng trợ cấp của bạn đã được phê duyệt, đăng nhập để nhận tiền giải ngân.\"",
+      "exclusions": "Mức lương/phụ cấp hợp lý (vd. bưu tá 12 triệu/tháng). Số tiền bị che [MONEY] thì không có bằng chứng cho (a). Khuyến mãi CÓ ĐIỀU KIỆN gắn với hành động của người nhận ('nạp thẻ hôm nay được tặng 20%', 'đăng ký gia hạn giảm 50%', 'tham gia để săn giải', 'kính mời... để nhận lì xì') thì không gán (b). Thông báo về đơn hàng của chính người nhận (giao hàng gặp sự cố) không gán. Hoa hồng của mô hình nhiệm vụ đã nằm trong S03, không gán thêm S02."
+    },
+    {
+      "id": "S03",
+      "column": "S03_task_commission",
+      "name": "Làm nhiệm vụ ăn hoa hồng",
+      "definition": "Mời làm 'nhiệm vụ' đơn giản (thả tim, follow, subscribe, đánh giá, xem video, đặt đơn hộ, giật/chốt đơn ảo) để nhận hoa hồng; thường sau đó yêu cầu nạp tiền để làm nhiệm vụ lớn hơn.",
+      "cues": "CTV, làm nhiệm vụ, giật đơn hàng ảo, hoàn tiền + hoa hồng, thả tim/like/subscribe/đánh giá 5 sao",
+      "example": "\"Thả tim và đánh giá sản phẩm trên sàn, hoa hồng 10-50k mỗi nhiệm vụ.\"",
+      "exclusions": "Việc làm có thật tính tiền theo sản phẩm (gõ văn bản, dịch thuật, dán nhãn, trực page chốt đơn hàng thật) không gán. Tuyển cộng tác viên bán hàng/viết bài có công ty và hợp đồng rõ ràng không gán (nếu mơ hồ, cân nhắc S13)."
+    },
+    {
+      "id": "S04",
+      "column": "S04_authority_impersonation",
+      "name": "Tự xưng cơ quan nhà nước",
+      "definition": "Người gửi TỰ XƯNG BẰNG LỜI (tên người gửi, 'X thông báo', 'Tôi là cán bộ X') là công an, CSGT, tòa án, viện kiểm sát, cơ quan thuế, bảo hiểm xã hội, chính quyền..., thường kèm cáo buộc vi phạm hoặc yêu cầu 'xác minh'.",
+      "cues": "liên quan vụ án, lệnh bắt, giấy triệu tập, xác minh định danh, phong tỏa tài sản, tiền phạt chưa thanh toán, khai báo cư trú, kèm link hoặc số lạ",
+      "example": "\"Công an quận [QUAN] thông báo CCCD của bạn liên quan vụ án rửa tiền.\"",
+      "exclusions": "Chỉ nhắc đến cơ quan hoặc chủ đề của họ ('để nhận tiền hoàn thuế', 'thanh toán tiền phạt giao thông', 'quỹ BHTN') mà không tự xưng thì không gán. Chỉ có tên miền nhái cơ quan nhà nước (vd. govvn-dichvucong.com) thì chỉ gán S12. Đã gán S04 thì không gán thêm S05. Doanh nghiệp, kể cả doanh nghiệp nhà nước (Bưu điện, Viettel), dùng S05."
+    },
+    {
+      "id": "S05",
+      "column": "S05_org_impersonation",
+      "name": "Tổ chức tự xưng qua kênh bất thường",
+      "definition": "Tự xưng BẰNG LỜI (tên người gửi hoặc 'Thông báo từ X') là một tổ chức có thật: ngân hàng, ví điện tử, sàn TMĐT, nhà mạng, công ty, bưu điện, nhà trường, quỹ học bổng... NHƯNG trong tin có điểm bất thường về kênh: link không thuộc tổ chức đó, số điện thoại cá nhân, email miền miễn phí, fanpage/tài khoản MXH lạ.",
+      "cues": "[Tên thương hiệu] kèm link tên miền khác, email @gmail xưng là phòng đào tạo, fanpage có tên kèm số (buudienhanoi66), liên hệ nhân viên qua số điện thoại riêng",
+      "example": "\"[Phòng CTSV] Bạn được học bổng 5 triệu, liên hệ email hocbong.[TEN_TRUONG]@gmail.com để nhận.\"",
+      "exclusions": "Chỉ có tên miền nhái thương hiệu mà lời tin không tự xưng thì chỉ gán S12 (vd. msb.com.vn-sp.top). Tên tự đặt chung chung, không phải tổ chức có thật ('Telegram_Job', 'Công ty truyền thông giải trí') thì không gán. Tự xưng nhưng tin không có kênh bất thường nào (không link, không số riêng) thì không gán. Brandname chính thức, link tên miền thật thì không gán. Cơ quan nhà nước dùng S04."
+    },
+    {
+      "id": "S06",
+      "column": "S06_personal_impersonation",
+      "name": "Giả người quen",
+      "definition": "Người gửi tự nhận là bạn bè, người thân, thầy cô... và nhờ chuyển tiền, mượn tiền, nhờ nhận hộ mã hoặc nạp thẻ.",
+      "cues": "chuyển giúp mình, đang kẹt, tối trả, xưng hô thân mật kèm tiền gấp, số tài khoản mang tên người khác",
+      "example": "\"Ê tao đang kẹt, chuyển giúp 2 triệu vào STK [STK] tên [TEN], tối trả.\"",
+      "exclusions": "Chỉ nhắc 'quà từ bạn bè' mà người gửi không tự nhận là người quen thì không gán. Cuộc trò chuyện với người quen đã được người gán nhãn xác minh là thật thì không gán."
+    },
+    {
+      "id": "S07",
+      "column": "S07_credential_request",
+      "name": "Xin thông tin đăng nhập / định danh",
+      "definition": "Yêu cầu cung cấp OTP, mật khẩu, mã PIN, số thẻ/CVV, ảnh CCCD, ảnh/video khuôn mặt; yêu cầu đăng nhập qua link được gửi kèm; hoặc yêu cầu điền, khai báo, cập nhật, xác minh thông tin cá nhân/định danh qua link được gửi kèm.",
+      "cues": "gửi mã OTP, đăng nhập để xác nhận, chụp 2 mặt CCCD, chỉ cần (ảnh) CCCD, quay video khuôn mặt, khai báo lại thông tin cư trú, xác minh thông tin chính chủ, điền thông tin tại link, link chứa /login hoặc /auth",
+      "example": "\"Bạn gửi giúp mình mã 6 số vừa nhận để xác nhận đơn hàng nhé.\"",
+      "exclusions": "Tin CẢNH BÁO kiểu 'tuyệt đối không cung cấp OTP cho ai' không gán. Chỉ bảo bấm link để gia hạn, hủy, xem chi tiết, đăng ký tài khoản mà không đòi thông tin thì không gán. Nộp hồ sơ xin việc qua link ('đăng ký hồ sơ online') không gán. Xin thông tin qua điện thoại (không qua link) không gán, thường là S11. Số tài khoản nhận tiền không tính là thông tin bí mật. Gán theo nội dung kể cả tin legit: quảng cáo vay 'chỉ cần CCCD' VẪN gán. Khác S08: S07 là xin thông tin của bạn, S08 là đề nghị thuê/mua hẳn tài khoản."
+    },
+    {
+      "id": "S08",
+      "column": "S08_account_rental",
+      "name": "Thuê / mua / mượn tài khoản, giấy tờ",
+      "definition": "Đề nghị trả tiền để mượn, thuê, mua tài khoản ngân hàng, ví, SIM, CCCD hoặc nhờ mở tài khoản hộ.",
+      "cues": "thuê tài khoản ngân hàng, mở tài khoản hộ, mua lại SIM chính chủ, trả tiền theo mỗi tài khoản",
+      "example": "\"Cần thuê tài khoản ngân hàng sinh viên, trả 500k/tháng, không cần làm gì.\"",
+      "exclusions": "Xem phân biệt với S07 ở trên."
+    },
+    {
+      "id": "S09",
+      "column": "S09_urgency_pressure",
+      "name": "Ép thời gian / đe dọa",
+      "definition": "Tạo áp lực phải hành động ngay, có HẠN CHÓT CỤ THỂ hoặc HẬU QUẢ nếu không làm: khóa tài khoản, khởi tố, phong tỏa, bị phạt, bị trừ tiền, mất suất, mất quà/điểm. Cảnh báo đang bị xâm nhập (thiết bị lạ, đăng nhập bất thường, giao dịch lạ, dữ liệu đang bị sao chép) cũng tính là hậu quả. Hậu quả phải được NÓI RA trong tin, không suy luận.",
+      "cues": "trước 17h, trong 24h, trong ngày hôm nay kèm hậu quả, nếu không sẽ bị khóa/khởi tố/phạt, tránh phí phạt nộp trễ, quá hạn sẽ không được nhận, sắp bị trừ tiền hàng tháng + vào link để hủy, điểm/ưu đãi sắp hết hạn + yêu cầu đổi ngay, phát hiện thiết bị lạ/đăng nhập bất thường, thông báo đang bị phong tỏa/xử phạt/khởi tố/điều tra, đe dọa bôi nhọ",
+      "example": "\"Cập nhật trong 24h, nếu không tài khoản sẽ bị tạm khóa.\"",
+      "exclusions": "Kiểm tra nhanh: tin có nói ra hậu quả hoặc hạn chót và yêu cầu bạn LÀM GÌ để tránh không? Không thì không gán. Lời mời gọi quảng cáo ('ngay hôm nay', 'chỉ hôm nay', 'nhanh tay', 'đừng bỏ lỡ'), lời hứa nhận tiền nhanh ('sau 15p tiền về', 'giải ngân trong ngày'), hạn sử dụng của quà/data đã nhận mà không yêu cầu làm gì, hoặc chỉ có chữ 'Cảnh báo' kèm một sự cố mà không nói hậu quả (vd. kiện hàng rách tem) thì không gán. Gán theo NỘI DUNG, không theo ý định: thông báo hạn đóng học phí thật có hạn chót và hậu quả VẪN gán (hard negative)."
+    },
+    {
+      "id": "S10",
+      "column": "S10_verification_block",
+      "name": "Ngăn cản xác minh",
+      "definition": "Yêu cầu giữ bí mật, không báo người thân/nhà trường/ngân hàng, không gọi lại, ở một mình, hoặc 'đừng tin ai khác'.",
+      "cues": "bí mật điều tra, không được nói với ai, đừng gọi lại, vào phòng riêng, không cần hỏi gia đình",
+      "example": "\"Đây là bí mật điều tra, không được tiết lộ cho người thân.\"",
+      "exclusions": "Lời nhắc bảo mật thông thường ('không chia sẻ mật khẩu') không gán."
+    },
+    {
+      "id": "S11",
+      "column": "S11_channel_switch",
+      "name": "Dẫn sang kênh khác",
+      "definition": "Đề nghị chuyển liên lạc sang Telegram, Zalo/nhóm Zalo, Messenger, fanpage lạ, số điện thoại cá nhân, gọi video riêng, thay vì kênh chính thức.",
+      "cues": "nhận việc qua Telegram, kết bạn Zalo số..., link zalo.me, vào nhóm để được hướng dẫn, inbox riêng, liên hệ fanpage, liên hệ nhân viên qua số điện thoại",
+      "example": "\"Nhận việc qua Telegram: @[TEN_TAI_KHOAN].\"",
+      "exclusions": "Chữ 'Telegram'/'Zalo' chỉ có trong tên người gửi hoặc tiền tố của link mà không có lời yêu cầu chuyển kênh thì không gán. 'Phản hồi lại tin nhắn này' là giữ nguyên kênh. Tin tuyển dụng dẫn về email hoặc hotline chính thức của công ty thì không gán."
+    },
+    {
+      "id": "S12",
+      "column": "S12_suspicious_link_app",
+      "name": "Link / ứng dụng đáng ngờ",
+      "definition": "Chứa link rút gọn, tên miền nhái hoặc lạ (thêm gạch nối, sai chính tả tên thương hiệu, đuôi tên miền ít gặp, tên miền không liên quan nội dung), file đính kèm lạ, hoặc yêu cầu cài ứng dụng ngoài kho chính thức (file .apk, tải app qua link).",
+      "cues": "Ba kiểu nhái thương hiệu: tiền tố (vtvcab.giahan-kenh.cc → tên miền thật là giahan-kenh.cc), thương hiệu ở đường dẫn (nhanqua.sale/shopee), đổi đuôi (bidv.xyz thay vì bidv.com.vn); nhái chính tả (thuedjentuu.vn, dichvucongg.top); cơ quan nhà nước nhưng không có đuôi .gov.vn; bit.ly/...; tải app tại link. Đọc tên miền từ phải sang trái; tên miền lạ mà không chắc thì tra trước khi gán",
+      "example": "\"Cập nhật sinh trắc học tại: nganhang-capnhat-sinhtrachoc[.]top\"",
+      "exclusions": "Link tới tên miền chính thức đã biết thì không gán, kể cả facebook.com (trang giả trên Facebook được ghi nhận ở S05/S11). Link bị trộn vào chữ, không đọc chắc được tên miền thì không gán (S14 đã ghi nhận). Sai chính tả trong tên miền là S12, không phải S14."
+    },
+    {
+      "id": "S13",
+      "column": "S13_vague_employer",
+      "name": "Tuyển dụng mơ hồ",
+      "definition": "Chỉ dùng cho tin tuyển dụng: KHÔNG BIẾT AI LÀ CHỦ THUÊ (không có tên công ty tuyển), kèm theo thiếu địa chỉ, mô tả công việc cụ thể hoặc quy trình tuyển; tuyển số lượng lớn 'không cần kinh nghiệm', 'nhận ngay'.",
+      "cues": "inbox để biết thêm, không cần kinh nghiệm/bằng cấp, nhận việc ngay, không có tên công ty, chỉ nêu nền tảng ('chốt đơn Lazada') hoặc trang trung gian ('Việc Làm 24h') mà không nêu công ty tuyển",
+      "example": "\"TUYỂN GẤP 20 bạn làm part-time, không cần kinh nghiệm, inbox để được hướng dẫn.\"",
+      "exclusions": "Tin có nêu tên công ty là chủ thuê, thật hay giả (vd. Grab, Shopee, Lazada tuyển cho chính họ), thì không gán: phần giả danh do S05 ghi nhận. Riêng cụm 'không cần kinh nghiệm, làm tại nhà' chưa đủ để gán."
+    },
+    {
+      "id": "S14",
+      "column": "S14_obfuscated_text",
+      "name": "Chữ bị biến dạng / né lọc",
+      "definition": "Cố ý viết sai trong LỜI TIN (kể cả tên người gửi) để lách bộ lọc tin rác: thay chữ bằng số hoặc ký hiệu, chèn ký tự lạ vào giữa từ hoặc số, chèn dấu cách vào tên miền, xen kẽ hoa-thường bất thường, hoặc viết liền cả câu không dấu cách.",
+      "cues": "số thay chữ (Zal0, J0B, Th0ng ba0, ck4n), l thường thay I hoa (VlNPEARL, VlETCOMBANK), j thay i (thjết, chjnh), ] hoặc ¢ thay chữ (t]nh, Tele¢om, Vie¢Lam), chèn dấu chấm/nháy (N.Ợ, CCC.D, 2'9'), tên miền bị tách (B99. WIN), cả câu dính liền",
+      "example": "\"[Zal0-Security] Cbáo: Phat hien có thiet b] lạ đg cố t]nh sao chép...\"",
+      "exclusions": "Tin KHÔNG DẤU và viết tắt thông thường (k, ko, khg, đc, b, TB, QK, LH, Cbáo) thì không gán: tin ngân hàng/nhà mạng hợp lệ cũng hay viết vậy. Lỗi gõ lẻ tẻ, một chữ hoa lẻ (LazaDa) không gán. Chuỗi ký tự ngẫu nhiên ở cuối tin không gán (tin OTP hợp lệ cũng có). Sai chính tả trong tên miền là S12. Dấu [.] trong link là do chúng ta tự vô hiệu hóa khi ẩn danh, không tính."
+    }
+  ]
+}

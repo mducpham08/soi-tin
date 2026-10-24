@@ -1,0 +1,244 @@
+{
+  "meta": {
+    "run_name": "20261024_sonnet_v4_rules_test",
+    "model_key": "sonnet",
+    "model": "claude-sonnet-5-5",
+    "provider": "anthropic",
+    "prompt": "v4_rules",
+    "split": "test",
+    "data_version": "1.0",
+    "started": "2026-10-24T01:24:29",
+    "n_requested": 128
+  },
+  "n": 128,
+  "n_valid": 127,
+  "format_valid_rate": 0.9921875,
+  "label": {
+    "tp": 64,
+    "fp": 0,
+    "fn": 4,
+    "tn": 60,
+    "precision": 1.0,
+    "recall": 0.9411764705882353,
+    "f1": 0.9696969696969697,
+    "accuracy": 0.96875,
+    "fpr_all_legit": 0.0,
+    "fpr_hard_negative": 0.0,
+    "fpr_normal_legit": 0.0,
+    "n_scam": 68,
+    "n_legit": 60,
+    "n_hard": 49,
+    "n_normal": 11
+  },
+  "label_ci95": {
+    "recall": [
+      0.8823529411764706,
+      0.9861111111111112
+    ],
+    "precision": [
+      1.0,
+      1.0
+    ],
+    "f1": [
+      0.9375,
+      0.993006993006993
+    ],
+    "fpr_all_legit": [
+      0.0,
+      0.0
+    ]
+  },
+  "roc_auc": 0.9981617647058824,
+  "pr_auc": 0.9976788767104059,
+  "label_conf_mismatch": 0,
+  "by_source_type": {
+    "chat": {
+      "n": 4,
+      "recall": 0.75,
+      "fpr": null
+    },
+    "document": {
+      "n": 11,
+      "recall": 1.0,
+      "fpr": 0.0
+    },
+    "email": {
+      "n": 3,
+      "recall": 1.0,
+      "fpr": null
+    },
+    "job_post": {
+      "n": 19,
+      "recall": 0.6666666666666666,
+      "fpr": 0.0
+    },
+    "sms": {
+      "n": 91,
+      "recall": 0.9787234042553191,
+      "fpr": 0.0
+    }
+  },
+  "signals": {
+    "S01": {
+      "support": 17,
+      "tp": 15,
+      "fp": 1,
+      "fn": 2,
+      "precision": 0.9375,
+      "recall": 0.8823529411764706,
+      "f1": 0.9090909090909091
+    },
+    "S02": {
+      "support": 22,
+      "tp": 20,
+      "fp": 11,
+      "fn": 2,
+      "precision": 0.6451612903225806,
+      "recall": 0.9090909090909091,
+      "f1": 0.7547169811320754
+    },
+    "S03": {
+      "support": 8,
+      "tp": 8,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "S04": {
+      "support": 7,
+      "tp": 7,
+      "fp": 2,
+      "fn": 0,
+      "precision": 0.7777777777777778,
+      "recall": 1.0,
+      "f1": 0.8750000000000001
+    },
+    "S05": {
+      "support": 32,
+      "tp": 24,
+      "fp": 8,
+      "fn": 8,
+      "precision": 0.75,
+      "recall": 0.75,
+      "f1": 0.75
+    },
+    "S06": {
+      "support": 5,
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "S07": {
+      "support": 9,
+      "tp": 8,
+      "fp": 4,
+      "fn": 1,
+      "precision": 0.6666666666666666,
+      "recall": 0.8888888888888888,
+      "f1": 0.761904761904762
+    },
+    "S08": {
+      "support": 1,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "S09": {
+      "support": 26,
+      "tp": 24,
+      "fp": 11,
+      "fn": 2,
+      "precision": 0.6857142857142857,
+      "recall": 0.9230769230769231,
+      "f1": 0.7868852459016394
+    },
+    "S10": {
+      "support": 4,
+      "tp": 4,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "S11": {
+      "support": 18,
+      "tp": 15,
+      "fp": 0,
+      "fn": 3,
+      "precision": 1.0,
+      "recall": 0.8333333333333334,
+      "f1": 0.9090909090909091
+    },
+    "S12": {
+      "support": 30,
+      "tp": 29,
+      "fp": 2,
+      "fn": 1,
+      "precision": 0.9354838709677419,
+      "recall": 0.9666666666666667,
+      "f1": 0.9508196721311476
+    },
+    "S13": {
+      "support": 6,
+      "tp": 6,
+      "fp": 11,
+      "fn": 0,
+      "precision": 0.35294117647058826,
+      "recall": 1.0,
+      "f1": 0.5217391304347826
+    },
+    "S14": {
+      "support": 10,
+      "tp": 9,
+      "fp": 1,
+      "fn": 1,
+      "precision": 0.9,
+      "recall": 0.9,
+      "f1": 0.9
+    }
+  },
+  "signals_micro": {
+    "precision": 0.7743362831858407,
+    "recall": 0.8974358974358975,
+    "f1": 0.831353919239905
+  },
+  "signals_macro_f1": 0.8553267392066327,
+  "signals_macro_set": [
+    "S01",
+    "S02",
+    "S03",
+    "S04",
+    "S05",
+    "S06",
+    "S07",
+    "S09",
+    "S10",
+    "S11",
+    "S12",
+    "S13",
+    "S14"
+  ],
+  "signals_exact_match": 0.5859375,
+  "evidence_grounded_rate": 0.995575221238938,
+  "n_evidence": 226,
+  "usage": {
+    "input_tokens": 47055,
+    "output_tokens": 35881,
+    "cache_read_tokens": 1489075,
+    "cache_write_tokens": 11725
+  },
+  "cost_usd": 0.63114,
+  "cost_per_1000_msgs_usd": 4.93078125,
+  "latency_mean_s": 3.2477614656090736,
+  "latency_p95_s": 4.480839490890503,
+  "n_api_errors": 0
+}

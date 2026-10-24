@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Soi Tin – kiểm tra tin nhắn lừa đảo</title>
+  <meta name="description" content="Dán tin nhắn, email hay bài tuyển dụng nghi ngờ. Soi Tin tô sáng từng dấu hiệu lừa đảo và giải thích vì sao.">
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/static/fonts/inter-400.woff" as="font" type="font/woff" crossorigin>
+  <link rel="preload" href="/static/fonts/inter-display-700.woff" as="font" type="font/woff" crossorigin>
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  <a class="skip" href="#check">Bỏ qua, tới ô kiểm tra</a>
+
+  <header class="top">
+    <a class="brand" href="/" aria-label="Soi Tin, trang chủ">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M8 6h24a4 4 0 0 1 4 4v15a4 4 0 0 1-4 4H19l-7 6v-6H8a4 4 0 0 1-4-4V10a4 4 0 0 1 4-4z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/>
+        <rect class="brand-hl" x="9" y="13.5" width="16" height="6" rx="1.5"/>
+        <path d="M11 16.5h18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-name">Soi Tin</span>
+    </a>
+    <nav class="top-nav" aria-label="Mục chính">
+      <a href="#check">Kiểm tra tin</a>
+      <a href="#eval">Độ chính xác</a>
+    </nav>
+  </header>
+
+  <p id="mode-banner" class="mode-banner" role="status" hidden></p>
+
+  <main>
+    <section id="check" class="check" aria-labelledby="check-title">
+      <div class="intro">
+        <h1 id="check-title">Tin này có phải lừa đảo?</h1>
+        <p class="lede">Dán tin nhắn, email hay bài tuyển dụng bạn vừa nhận. Soi Tin tô sáng từng chỗ đáng ngờ trong tin và giải thích vì sao.</p>
+      </div>
+
+      <!-- Ô nhập tin -->
+      <form id="check-form" class="composer" novalidate>
+        <div class="sheet composer-sheet" id="composer-sheet">
+          <label class="visually-hidden" for="msg">Nội dung tin cần kiểm tra</label>
+          <textarea id="msg" name="text" rows="9" spellcheck="false"
+            placeholder="Dán nội dung tin vào đây, ví dụ: “Chúc mừng bạn đã trúng tuyển cộng tác viên, thu nhập 500k/ngày, kết bạn Zalo để nhận việc…”"></textarea>
+          <div class="sweep" aria-hidden="true"></div>
+          <div class="composer-bar">
+            <fieldset class="models" id="models">
+              <legend class="visually-hidden">Chọn model</legend>
+            </fieldset>
+            <span class="count" id="count" aria-live="polite">0 / 4.000</span>
+            <button type="submit" class="btn btn-primary" id="submit">Kiểm tra tin</button>
+          </div>
+        </div>
+        <p class="model-hint" id="model-hint"></p>
+        <p class="form-error" id="form-error" role="alert" hidden></p>
+        <p class="privacy">Tin không được lưu lại. Trước khi dán, nên xoá mật khẩu, mã OTP và số tài khoản của bạn.</p>
+      </form>
+
+      <aside class="samples" aria-labelledby="samples-title">
+        <h2 id="samples-title">Thử với tin mẫu</h2>
+        <ul id="samples-list" class="samples-list"></ul>
+        <p class="samples-note">Các tin mẫu do dự án tự viết, số điện thoại và tên miền là giả.</p>
+      </aside>
+    </section>
+
+    <!-- Kết quả -->
+    <section id="result" class="result" aria-live="polite" hidden tabindex="-1">
+      <div class="verdict" id="verdict">
+        <p class="verdict-word" id="verdict-word"></p>
+        <div class="verdict-body">
+          <div class="meter" id="meter" role="img">
+            <div class="meter-track">
+              <span class="zone zone-safe"></span><span class="zone zone-caution"></span><span class="zone zone-scam"></span>
+              <span class="meter-pin" id="meter-pin"></span>
+            </div>
+            <div class="meter-scale" aria-hidden="true"><span>Có vẻ an toàn</span><span>Cần cẩn thận</span><span>Lừa đảo</span></div>
+          </div>
+          <p class="explanation" id="explanation"></p>
+        </div>
+      </div>
+
+      <div class="reading">
+        <div class="sheet annotated-sheet">
+          <h2 class="sheet-title">Tin bạn gửi</h2>
+          <p class="annotated" id="annotated"></p>
+          <p class="legend" id="legend"></p>
+        </div>
+        <div class="notes">
+          <h2 id="notes-title">Dấu hiệu tìm thấy</h2>
+          <ol class="notes-list" id="notes-list"></ol>
+          <p class="notes-empty" id="notes-empty" hidden>Không thấy dấu hiệu lừa đảo nào trong tin.</p>
+        </div>
+      </div>
+
+      <div class="links" id="obf" hidden>
+        <h2>Chữ bị biến dạng trong tin</h2>
+        <ul class="links-list" id="obf-list"></ul>
+        <p class="links-note">App tự soi bằng luật, độc lập với model, nên vẫn báo được khi model bỏ sót. App chỉ chỉ ra chỗ bị biến dạng, không đoán lại câu gốc.</p>
+      </div>
+
+      <div class="links" id="links" hidden>
+        <h2>Link và tên miền trong tin</h2>
+        <ul class="links-list" id="links-list"></ul>
+        <p class="links-note">So với danh sách tên miền chính thức do dự án tự tổng hợp. Danh sách có thể thiếu, nên “không có trong danh sách” chưa chắc là xấu.</p>
+      </div>
+
+      <dl class="meta" id="meta"></dl>
+      <p class="result-notes" id="result-notes" hidden></p>
+
+      <div class="result-actions">
+        <button type="button" class="btn btn-primary" id="again">Kiểm tra tin khác</button>
+        <button type="button" class="btn btn-quiet" id="edit">Sửa tin này</button>
+      </div>
+      <p class="disclaimer">Kết quả do AI đưa ra và có thể sai. Khi còn nghi ngờ, hãy gọi tổng đài chính thức của tổ chức (tra trên website của họ, không dùng số trong tin) để hỏi lại.</p>
+    </section>
+
+    <!-- Độ chính xác -->
+    <section id="eval" class="eval" aria-labelledby="eval-title">
+      <div class="eval-intro">
+        <h2 id="eval-title">Độ chính xác của từng model</h2>
+        <p>Đo trên 128 tin tiếng Việt chưa từng dùng khi viết prompt: 68 tin lừa đảo và 60 tin thật (49 tin thật nhưng dễ nhầm, như tin OTP, quảng cáo nhà mạng, thông báo học bổng). Cả bốn hệ thống dùng chung một bộ tin và một cách chấm.</p>
+      </div>
+      <div class="eval-table-wrap">
+        <table class="eval-table" id="eval-table">
+          <caption class="visually-hidden">Kết quả trên tập test</caption>
+          <thead>
+            <tr>
+              <th scope="col">Hệ thống</th>
+              <th scope="col">F1</th>
+              <th scope="col">Bắt được tin lừa</th>
+              <th scope="col">Báo nhầm tin thật</th>
+              <th scope="col">Đúng dấu hiệu (F1)</th>
+              <th scope="col">Chi phí / 1.000 tin</th>
+              <th scope="col">Thời gian / tin</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="eval-foot">F1 kết hợp tỉ lệ bắt được tin lừa và tỉ lệ cảnh báo đúng. “Đúng dấu hiệu” là micro F1 trên 14 loại dấu hiệu, đo xem model chỉ ra đúng chỗ đáng ngờ đến đâu. Qwen chạy trên laptop RTX 5070 8 GB.</p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>Soi Tin là dự án cá nhân về phát hiện dấu hiệu lừa đảo nhắm vào sinh viên. Prompt <span id="foot-prompt">v4_rules</span>, dữ liệu gán nhãn v1.0.</p>
+  </footer>
+
+  <template id="note-tpl">
+    <li class="note">
+      <span class="note-ref" aria-hidden="true"></span>
+      <div class="note-body">
+        <h3 class="note-name"></h3>
+        <p class="note-why"></p>
+        <blockquote class="note-quote"></blockquote>
+      </div>
+    </li>
+  </template>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
