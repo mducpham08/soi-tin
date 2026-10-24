@@ -60,6 +60,11 @@ async function init() {
   if (config.mode === "public" && config.limits) {
     showBanner(`Bản demo dùng Haiku 5.5, mỗi người kiểm tra được ${config.limits.per_ip} tin mỗi ngày.`);
   }
+  if (config.mode === "public") {
+    // bản công khai: nói rõ tin đi đâu
+    $(".privacy").textContent = "Tin của bạn được gửi tới Claude API (Anthropic) để phân tích. Soi Tin không lưu lại tin. "
+      + "Trước khi dán, hãy xoá mật khẩu, mã OTP và số tài khoản.";
+  }
   renderModels();
   renderSamples();
   updateCount();

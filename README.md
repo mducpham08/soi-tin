@@ -108,6 +108,16 @@ python -m unittest discover -s tests
 - **App không lưu nội dung tin:** không ghi file, không ghi log nội dung.
 - `python -m app.main --public`: chế độ đưa lên mạng, chỉ Haiku, giới hạn lượt theo IP và theo ngày (`APP_DAILY_PER_IP`, mặc định 20; `APP_DAILY_TOTAL`, mặc định 300). Nên dùng một API key riêng có giới hạn chi tiêu thấp.
 
+### Đưa bản demo lên mạng (Render, gói miễn phí)
+
+Repo có sẵn `render.yaml`: máy chủ Singapore, chạy `gunicorn app.wsgi:app` ở chế độ công khai (chỉ Haiku, 20 lượt / IP / ngày, 300 lượt / ngày).
+
+1. **Tạo API key riêng cho bản demo:** trong Claude Console, tạo một workspace riêng, đặt giới hạn chi tiêu thấp (ví dụ 2 USD/tháng), rồi tạo key trong workspace đó. Giới hạn này là chốt chặn cuối cùng nếu bản demo bị lạm dụng.
+2. **Tạo dịch vụ:** trên Render chọn **New → Blueprint**, chọn repo, dán key ở bước 1 vào `ANTHROPIC_API_KEY`.
+3. **Kiểm tra app đọc đúng IP người dùng** (chỉ làm một lần): thêm biến `APP_DEBUG_IP=1`, mở `/api/debug-ip`; giá trị `chosen` phải là IP của bạn. Nếu không, chỉnh `APP_PROXY_HOPS` cho đúng, rồi xoá `APP_DEBUG_IP`.
+
+Gói miễn phí tự ngủ sau 15 phút không có ai truy cập; lượt truy cập đầu tiên sau đó mất khoảng một phút để khởi động. Bộ đếm lượt nằm trong RAM nên được đặt lại khi app khởi động lại.
+
 ### Chạy lại bài đánh giá
 
 Các script cần bộ dữ liệu (không kèm trong repo):
@@ -136,7 +146,7 @@ python scripts/run_eval.py --model haiku --prompt v4_rules --split test --i-am-d
 ## Cấu trúc thư mục
 
 ```
-app/                     web app (Flask): main.py, samples.json, static/ (giao diện, font Inter tự host)
+app/                     web app (Flask): main.py, wsgi.py (cho gunicorn), samples.json, static/ (giao diện, font Inter tự host)
 scamdet/                 thư viện: đọc dữ liệu, dựng prompt, gọi model, hậu xử lý cho app
   analyze.py             gộp mã trùng, tìm bằng chứng trong tin, 3 mức kết quả
   links.py               kiểm tra link / tên miền với data/official_domains.json
@@ -148,6 +158,7 @@ scripts/                 run_eval.py, score.py, compare.py, export_dataset.py, s
 results/                 số liệu tổng hợp các lượt đánh giá
 tests/                   kiểm thử app: python -m unittest discover -s tests
 models.json              cấu hình model và giá
+render.yaml              cấu hình deploy bản demo lên Render
 ```
 
 ## Giấy phép và ghi công

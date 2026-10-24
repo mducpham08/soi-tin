@@ -195,6 +195,34 @@ class AppTests(unittest.TestCase):
             codes = [c.post("/api/check", json={"text": "abc", "model": "haiku"}).status_code for _ in range(3)]
             self.assertEqual(codes, [200, 200, 429])
 
+    def test_health_and_debug_ip(self):
+        c = self.make(fake=True)
+        self.assertEqual(c.get("/api/health").get_json()["ok"], True)
+        self.assertEqual(c.get("/api/debug-ip").status_code, 404)        # tắt mặc định
+        with mock.patch.dict(os.environ, {"APP_DEBUG_IP": "1"}):
+            self.assertIn("chosen", self.make(fake=True).get("/api/debug-ip").get_json())
+
+    def test_client_ip_behind_proxy(self):
+        env = {"APP_DAILY_PER_IP": "1", "APP_DAILY_TOTAL": "100", "APP_TRUST_PROXY": "1"}
+        with mock.patch.dict(os.environ, env):
+            c = self.make(fake=True, public=True)
+            post = lambda h: c.post("/api/check", json={"text": "abc", "model": "haiku"}, headers=h).status_code
+            # cùng IP thật nhưng tự thêm IP giả ở đầu X-Forwarded-For: vẫn bị tính là một người
+            self.assertEqual(post({"X-Forwarded-For": "1.1.1.1, 9.9.9.9"}), 200)
+            self.assertEqual(post({"X-Forwarded-For": "2.2.2.2, 9.9.9.9"}), 429)
+            # người khác (IP thật khác) vẫn dùng được
+            self.assertEqual(post({"X-Forwarded-For": "8.8.8.8"}), 200)
+            # header của CDN được ưu tiên
+            self.assertEqual(post({"CF-Connecting-IP": "7.7.7.7", "X-Forwarded-For": "9.9.9.9"}), 200)
+
+    def test_wsgi_entry_is_public(self):
+        with mock.patch.dict(os.environ, {"APP_FAKE": "1"}):
+            import importlib, app.wsgi
+            importlib.reload(app.wsgi)
+            cfg = app.wsgi.app.test_client().get("/api/config").get_json()
+            self.assertEqual([m["key"] for m in cfg["models"]], ["haiku"])
+            self.assertIsNotNone(cfg["limits"])
+
     def test_static(self):
         c = self.make(fake=True)
         for path, code in [("/", 200), ("/static/app.js", 200), ("/static/fonts/inter-400.woff", 200),

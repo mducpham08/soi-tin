@@ -10,7 +10,11 @@ Biến môi trường (đặt trong .env):
     OLLAMA_URL             mặc định http://localhost:11434
     APP_DAILY_PER_IP       số lượt / IP / ngày ở chế độ công khai (mặc định 20)
     APP_DAILY_TOTAL        tổng số lượt / ngày ở chế độ công khai (mặc định 300)
-    APP_TRUST_PROXY=1      lấy IP từ X-Forwarded-For (chỉ bật khi chạy sau reverse proxy)
+    APP_TRUST_PROXY=1      chạy sau reverse proxy: lấy IP người dùng từ CF-Connecting-IP / True-Client-IP,
+                           không có thì từ X-Forwarded-For (APP_PROXY_HOPS phần tử tính từ phải, mặc định 1)
+    APP_DEBUG_IP=1         bật tạm /api/debug-ip để kiểm tra IP khi deploy (tắt sau khi kiểm tra)
+
+Chạy trên server (Render…):  gunicorn app.wsgi:app   (xem render.yaml)
 
 App KHÔNG lưu nội dung tin: không ghi file, không ghi log nội dung.
 """
@@ -105,8 +109,18 @@ def create_app(fake=False, public=False):
             return predictors[key]
 
     def client_ip():
-        if os.environ.get("APP_TRUST_PROXY") == "1" and request.headers.get("X-Forwarded-For"):
-            return request.headers["X-Forwarded-For"].split(",")[0].strip()
+        """IP người dùng để đếm lượt. Sau reverse proxy (Render…) thì remote_addr là IP của proxy, nên:
+        ưu tiên header do CDN đặt (người dùng không giả được), không có thì lấy từ X-Forwarded-For,
+        đếm từ phải sang APP_PROXY_HOPS phần tử (phần bên trái do người dùng tự gửi được, không tin)."""
+        if os.environ.get("APP_TRUST_PROXY") != "1":
+            return request.remote_addr or "?"
+        for h in ("CF-Connecting-IP", "True-Client-IP"):
+            if request.headers.get(h):
+                return request.headers[h].strip()
+        xff = [x.strip() for x in request.headers.get("X-Forwarded-For", "").split(",") if x.strip()]
+        hops = max(1, int(os.environ.get("APP_PROXY_HOPS", "1")))
+        if len(xff) >= hops:
+            return xff[-hops]
         return request.remote_addr or "?"
 
     @app.after_request
@@ -127,6 +141,19 @@ def create_app(fake=False, public=False):
     @app.get("/static/<path:name>")
     def static_files(name):
         return send_from_directory(STATIC, name)
+
+    @app.get("/api/health")
+    def health():
+        return jsonify(ok=True, mode=mode)
+
+    if os.environ.get("APP_DEBUG_IP") == "1":
+        # Chỉ bật tạm khi deploy để kiểm tra app đọc đúng IP người dùng; tắt ngay sau khi kiểm tra.
+        @app.get("/api/debug-ip")
+        def debug_ip():
+            return jsonify(chosen=client_ip(), remote_addr=request.remote_addr,
+                           x_forwarded_for=request.headers.get("X-Forwarded-For"),
+                           cf_connecting_ip=request.headers.get("CF-Connecting-IP"),
+                           true_client_ip=request.headers.get("True-Client-IP"))
 
     @app.get("/api/config")
     def config():

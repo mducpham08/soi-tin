@@ -1,0 +1,21 @@
+# Cấu hình deploy bản demo lên Render (gói miễn phí, máy chủ Singapore).
+# Render > New > Blueprint > chọn repo này; khi được hỏi, dán API key RIÊNG cho bản demo vào ANTHROPIC_API_KEY.
+services:
+  - type: web
+    name: soi-tin
+    runtime: python
+    plan: free
+    region: singapore
+    buildCommand: pip install -r requirements.txt
+    # 1 worker để bộ đếm lượt dùng trong RAM là một; 4 luồng để vài người dùng cùng lúc
+    startCommand: gunicorn app.wsgi:app --workers 1 --threads 4 --timeout 60 --bind 0.0.0.0:$PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: APP_TRUST_PROXY
+        value: "1"
+      - key: APP_DAILY_PER_IP
+        value: "20"
+      - key: APP_DAILY_TOTAL
+        value: "300"
