@@ -2,6 +2,8 @@
 
 Dán một tin nhắn, email hay bài tuyển dụng nghi ngờ. Soi Tin dùng LLM để kết luận theo 3 mức (*Lừa đảo*, *Cần cẩn thận*, *Có vẻ an toàn*), tô sáng từng chỗ đáng ngờ ngay trong tin, giải thích vì sao và nên làm gì. Dự án nhắm vào các kiểu lừa đảo hay gặp ở sinh viên: việc nhẹ lương cao, làm nhiệm vụ ăn hoa hồng, giả ngân hàng, giả công an, học bổng bắt chứng minh tài chính.
 
+**Dùng thử:** [soi-tin.onrender.com](https://soi-tin.onrender.com). Bản demo dùng Claude Haiku 5.5, mỗi người kiểm tra được 20 tin mỗi ngày. Máy chủ miễn phí tự ngủ khi không có ai dùng, nên lần mở đầu tiên có thể mất khoảng một phút.
+
 ![Soi Tin kiểm tra một tin giả danh công an](docs/screenshot.png)
 
 **Điểm chính**
@@ -29,7 +31,7 @@ Dán một tin nhắn, email hay bài tuyển dụng nghi ngờ. Soi Tin dùng L
 
 ## English summary
 
-Soi Tin is an LLM-based tool that flags scam signals in Vietnamese messages, emails and job posts aimed at students. I built a 14-signal taxonomy and hand-labeled 221 messages (84% of the legitimate ones are hard negatives such as OTP texts, carrier promos and scholarship notices). Messages were split into dev/test by campaign group, and the test set was sealed: each model was run on it exactly once after the prompt was frozen. Five prompt iterations on dev raised F1 from 81.8 to 98.9 and cut false alarms on hard negatives from 51% to 3%. On the held-out test set (128 messages), Claude Sonnet 5.5 reached F1 97.0, Claude Haiku 5.5 94.0 at $0.36 per 1,000 messages, a local Qwen 3.5 9B 91.0, and a keyword baseline 61.8. The Flask web app highlights the quoted evidence inside the message, checks look-alike domains and flags obfuscated text.
+Soi Tin is an LLM-based tool that flags scam signals in Vietnamese messages, emails and job posts aimed at students. I built a 14-signal taxonomy and hand-labeled 221 messages (84% of the legitimate ones are hard negatives such as OTP texts, carrier promos and scholarship notices). Messages were split into dev/test by campaign group, and the test set was sealed: each model was run on it exactly once after the prompt was frozen. Five prompt iterations on dev raised F1 from 81.8 to 98.9 and cut false alarms on hard negatives from 51% to 3%. On the held-out test set (128 messages), Claude Sonnet 5.5 reached F1 97.0, Claude Haiku 5.5 94.0 at $0.36 per 1,000 messages, a local Qwen 3.5 9B 91.0, and a keyword baseline 61.8. The Flask web app highlights the quoted evidence inside the message, checks look-alike domains and flags obfuscated text. Live demo: https://soi-tin.onrender.com
 
 ## Cách hoạt động
 
